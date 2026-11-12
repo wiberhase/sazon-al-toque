@@ -1,0 +1,7 @@
+{
+  "name": "sazon-al-toque",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
