@@ -1,0 +1,28 @@
+<!-- BIENVENIDA: primera pantalla. Se entra a ver el menú sin registrarse -->
+<ion-content [fullscreen]="true">
+  <div class="contenido">
+    <h1>Sazón al toque</h1>
+    <p class="subtitulo">La comida que te gusta, directo a tu puerta.</p>
+
+    <!-- Fotos de muestra (están en src/assets/img) -->
+    <div class="collage">
+      <img class="grande" src="assets/img/hamburguesa.jpg" alt="Hamburguesa" />
+      <img src="assets/img/tacos.jpg" alt="Tacos" />
+      <img src="assets/img/pizza.jpg" alt="Pizza" />
+    </div>
+
+    <div class="chips">
+      <span>🍔 Hamburguesas</span>
+      <span>🌮 Tacos</span>
+      <span>🍕 Pizza</span>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Los botones van en el footer para que siempre queden abajo -->
+<ion-footer class="ion-no-border">
+  <div class="contenedor-boton">
+    <!-- routerLink cambia de página sin escribir código en el .ts -->
+    <ion-button class="boton" expand="block" routerLink="/home">Comenzar</ion-button>
+  </div>
+</ion-footer>

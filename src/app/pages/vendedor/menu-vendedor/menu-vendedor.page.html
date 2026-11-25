@@ -1,0 +1,37 @@
+<!-- MENÚ DEL VENDEDOR: agregar platillos nuevos y quitar los que ya no vende -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pedidos-vendedor"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi menú</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2>Agregar platillo</h2>
+
+  <ion-input class="campo" label="Nombre" labelPlacement="floating" fill="outline" [(ngModel)]="nombre"></ion-input>
+  <ion-input class="campo" label="Descripción" labelPlacement="floating" fill="outline" [(ngModel)]="descripcion"></ion-input>
+  <ion-input class="campo" label="Precio" labelPlacement="floating" fill="outline" type="number" [(ngModel)]="precio"></ion-input>
+
+  <!-- Lista para elegir la categoría -->
+  <ion-select class="campo" label="Categoría" labelPlacement="floating" fill="outline" [(ngModel)]="categoria">
+    <ion-select-option *ngFor="let c of categorias" [value]="c">{{ c }}</ion-select-option>
+  </ion-select>
+
+  <ion-button expand="block" color="success" (click)="agregar()">Agregar al menú</ion-button>
+
+  <h2>Platillos ({{ comidas.length }})</h2>
+  <ion-list>
+    <ion-item *ngFor="let item of comidas; let i = index">
+      <ion-label>
+        <h2>{{ item.nombre }}</h2>
+        <p>{{ item.categoria }} · ${{ item.precio }}</p>
+      </ion-label>
+      <ion-button slot="end" fill="clear" color="danger" (click)="quitar(i)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

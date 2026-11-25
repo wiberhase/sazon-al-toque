@@ -1,0 +1,50 @@
+<!-- PERFIL: editar datos y, si quiere, volverse vendedor -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Foto de perfil con la inicial del nombre -->
+  <div class="avatar">{{ usuario.nombre.charAt(0) }}</div>
+  <h2 class="ion-text-center">{{ usuario.nombre }}</h2>
+
+  <!-- Al escribir se cambian directo los datos de USUARIO -->
+  <ion-input class="campo" label="Nombre" labelPlacement="floating" fill="outline" [(ngModel)]="usuario.nombre"></ion-input>
+  <ion-input class="campo" label="Teléfono" labelPlacement="floating" fill="outline" type="tel" [(ngModel)]="usuario.telefono"></ion-input>
+  <ion-input class="campo" label="Dirección" labelPlacement="floating" fill="outline" [(ngModel)]="usuario.direccion"></ion-input>
+
+  <ion-button class="boton" expand="block" routerLink="/home">
+    <ion-icon slot="start" name="save-outline"></ion-icon>
+    Guardar
+  </ion-button>
+
+  <!-- Ver todos los pedidos que ha hecho -->
+  <ion-button expand="block" fill="outline" color="success" routerLink="/historial">
+    <ion-icon slot="start" name="receipt-outline"></ion-icon>
+    Mis pedidos
+  </ion-button>
+
+  <!-- Si todavía no vende, le ofrecemos registrarse como vendedor -->
+  <div class="vender" *ngIf="!usuario.vendedor">
+    <ion-icon name="storefront-outline"></ion-icon>
+    <strong>¿También quieres vender?</strong>
+    <p>Usa la misma cuenta para tu negocio.</p>
+    <ion-button expand="block" color="success" (click)="hacermeVendedor()">Registrarme como vendedor</ion-button>
+  </div>
+
+  <!-- Si ya vende, botón para ir a su negocio -->
+  <ion-button *ngIf="usuario.vendedor" expand="block" fill="outline" color="dark" routerLink="/pedidos-vendedor">
+    <ion-icon slot="start" name="storefront-outline"></ion-icon>
+    Ir a mi negocio
+  </ion-button>
+
+  <ion-button expand="block" fill="clear" color="danger" (click)="cerrarSesion()">
+    <ion-icon slot="start" name="log-out-outline"></ion-icon>
+    Cerrar sesión
+  </ion-button>
+</ion-content>

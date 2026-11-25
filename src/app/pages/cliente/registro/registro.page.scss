@@ -1,0 +1,34 @@
+h2 {
+  font-weight: bold;
+}
+
+ion-segment {
+  margin-bottom: 18px;
+}
+
+// Botón blanco con borde de Google
+.google {
+  --border-radius: 25px;
+  height: 48px;
+}
+
+// Texto "o llena tus datos"
+.separador {
+  text-align: center;
+  color: #8c8c8c;
+  margin: 14px 0;
+}
+
+// Separación entre inputs
+.campo {
+  margin-bottom: 14px;
+}
+
+// Botón negro redondo (igual que en bienvenida)
+.boton {
+  --background: #000000;
+  --color: #ffffff; // texto blanco
+  --border-radius: 25px;
+  height: 50px;
+  margin-top: 16px;
+}

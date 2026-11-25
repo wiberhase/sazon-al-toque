@@ -1,0 +1,36 @@
+<!-- HISTORIAL: todos los pedidos que ha hecho el cliente -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/perfil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Si todavía no hay pedidos -->
+  <div class="vacio" *ngIf="pedidos.length === 0">
+    <ion-icon name="receipt-outline"></ion-icon>
+    <p>Aún no has hecho pedidos.</p>
+    <ion-button color="success" routerLink="/home">Ir al menú</ion-button>
+  </div>
+
+  <!-- Una tarjeta por pedido (el más nuevo arriba) -->
+  <ion-card *ngFor="let pedido of pedidosRecientes">
+    <ion-card-header>
+      <ion-card-title>Pedido #{{ pedido.numero }}</ion-card-title>
+      <ion-card-subtitle>{{ pedido.fecha }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Productos del pedido -->
+      <p *ngFor="let item of pedido.productos">• {{ item.nombre }} - ${{ item.precio }}</p>
+
+      <div class="pie">
+        <ion-chip [color]="pedido.estado === 'Entregado' ? 'success' : 'warning'">{{ pedido.estado }}</ion-chip>
+        <strong>${{ pedido.total }}</strong>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

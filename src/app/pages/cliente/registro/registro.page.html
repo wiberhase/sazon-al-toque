@@ -1,0 +1,48 @@
+<!-- REGISTRO: el usuario pone sus datos y elige si quiere pedir o vender -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <!-- Flecha para regresar al menú -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2>Regístrate</h2>
+
+  <!-- ¿Cómo quieres usar la app? El valor elegido se guarda en "tipo" -->
+  <ion-segment [(ngModel)]="tipo" color="success">
+    <ion-segment-button value="cliente">
+      <ion-icon name="fast-food-outline"></ion-icon>
+      <ion-label>Quiero pedir</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="vendedor">
+      <ion-icon name="storefront-outline"></ion-icon>
+      <ion-label>Quiero vender</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Entrar con Google (simulado: llena datos de ejemplo) -->
+  <ion-button class="google" expand="block" fill="outline" color="dark" (click)="entrarConGoogle()">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    Continuar con Google
+  </ion-button>
+
+  <p class="separador">o llena tus datos</p>
+
+  <!-- Cada input se conecta a una variable con [(ngModel)] -->
+  <ion-input class="campo" label="Nombre" labelPlacement="floating" fill="outline" [(ngModel)]="nombre"></ion-input>
+  <ion-input class="campo" label="Teléfono" labelPlacement="floating" fill="outline" type="tel" [(ngModel)]="telefono"></ion-input>
+  <!-- El texto cambia según el tipo elegido -->
+  <ion-input
+    class="campo"
+    [label]="tipo === 'vendedor' ? 'Dirección del negocio' : 'Dirección de entrega'"
+    labelPlacement="floating"
+    fill="outline"
+    [(ngModel)]="direccion"
+  ></ion-input>
+
+  <ion-button class="boton" expand="block" (click)="registrar()">Registrarme</ion-button>
+</ion-content>

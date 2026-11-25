@@ -7,5 +7,18 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor() {}
+  menu = [
+    {
+      titulo: 'Home',
+      url: '/home',
+      color: 'primary',
+      icon: 'home-outline'
+    },
+    {
+      titulo: 'Bienveida',
+      url: '/bienvenida',
+      color: 'primary',
+      icon: 'home-outline'
+    }
+  ];
 }

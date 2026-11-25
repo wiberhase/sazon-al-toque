@@ -1,0 +1,41 @@
+<!-- CARRITO: ver lo que agregaste, quitar cosas y confirmar -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi carrito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Si el carrito está vacío -->
+  <p class="vacio" *ngIf="carrito.length === 0">Tu carrito está vacío 🛒</p>
+
+  <!-- Lista de productos. "i" es la posición, la usamos para quitar -->
+  <ion-list>
+    <ion-item *ngFor="let item of carrito; let i = index">
+      <ion-label>
+        <h2>{{ item.nombre }}</h2>
+        <p>${{ item.precio }}</p>
+      </ion-label>
+      <ion-button slot="end" fill="clear" color="danger" (click)="quitar(i)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Datos de entrega del cliente -->
+  <div class="caja" *ngIf="carrito.length > 0">
+    <p><ion-icon name="person-outline"></ion-icon> {{ cliente.nombre }}</p>
+    <p><ion-icon name="location-outline"></ion-icon> {{ cliente.direccion }}</p>
+    <p><ion-icon name="bicycle-outline"></ion-icon> Envío: ${{ envio }}</p>
+    <h2>Total: ${{ total() }}</h2>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="carrito.length > 0">
+  <ion-toolbar>
+    <ion-button expand="block" color="dark" (click)="confirmar()">Hacer pedido · ${{ total() }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

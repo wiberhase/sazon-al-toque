@@ -1,0 +1,35 @@
+<!-- PEDIDO: confirmación y estado del último pedido del cliente -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>Mi pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Solo se muestra si existe un pedido -->
+  <div class="centro" *ngIf="pedido">
+    <ion-icon class="icono" name="checkmark-circle" color="success"></ion-icon>
+    <h1>¡Pedido recibido!</h1>
+    <p>Gracias {{ pedido.cliente }}, lo llevamos a: {{ pedido.direccion }}</p>
+
+    <!-- El estado lo cambia el vendedor -->
+    <ion-chip color="success">
+      <ion-icon name="time-outline"></ion-icon>
+      <ion-label>{{ pedido.estado }}</ion-label>
+    </ion-chip>
+
+    <ion-list>
+      <ion-item *ngFor="let item of pedido.productos">
+        <ion-label>{{ item.nombre }}</ion-label>
+        <ion-note slot="end">${{ item.precio }}</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <h2>Total pagado: ${{ pedido.total }}</h2>
+  </div>
+
+  <p class="centro" *ngIf="!pedido">Aún no tienes pedidos.</p>
+
+  <ion-button expand="block" color="dark" routerLink="/home">Volver al menú</ion-button>
+  <ion-button expand="block" fill="clear" color="success" routerLink="/historial">Ver mis pedidos</ion-button>
+</ion-content>

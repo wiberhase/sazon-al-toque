@@ -1,0 +1,45 @@
+<!-- PEDIDOS DEL VENDEDOR: ver los pedidos que llegan y cambiar su estado -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pedidos</ion-title>
+    <!-- Ir a la página para agregar platillos -->
+    <ion-buttons slot="end">
+      <ion-button routerLink="/menu-vendedor">
+        <ion-icon slot="start" name="restaurant-outline"></ion-icon>
+        Mi menú
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <p class="vacio" *ngIf="pedidos.length === 0">Todavía no llegan pedidos.</p>
+
+  <!-- Una tarjeta por cada pedido -->
+  <ion-card *ngFor="let pedido of pedidos">
+    <ion-card-header>
+      <ion-card-title>{{ pedido.cliente }}</ion-card-title>
+      <ion-card-subtitle>{{ pedido.direccion }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Productos del pedido -->
+      <p *ngFor="let item of pedido.productos">• {{ item.nombre }} - ${{ item.precio }}</p>
+      <h2><strong>Total: ${{ pedido.total }}</strong></h2>
+      <p>Estado: <strong>{{ pedido.estado }}</strong></p>
+
+      <!-- Botones para avanzar el estado -->
+      <ion-button size="small" color="warning" (click)="cambiarEstado(pedido, 'En camino')">
+        <ion-icon slot="start" name="bicycle-outline"></ion-icon>
+        En camino
+      </ion-button>
+      <ion-button size="small" color="success" (click)="cambiarEstado(pedido, 'Entregado')">
+        <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+        Entregado
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

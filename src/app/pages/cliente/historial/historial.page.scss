@@ -1,0 +1,24 @@
+// Mensaje cuando no hay pedidos
+.vacio {
+  text-align: center;
+  color: #8c8c8c;
+  margin-top: 60px;
+
+  ion-icon {
+    font-size: 64px;
+  }
+}
+
+ion-card {
+  border-radius: 12px;
+}
+
+// Estado a la izquierda y total a la derecha
+.pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 18px;
+  color: #000000;
+}

@@ -1,0 +1,87 @@
+<!-- HOME: menú que se puede ver SIN registrarse -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>Sazón al toque</ion-title>
+    <ion-buttons slot="end">
+      <!-- Si no está registrado mostramos "Entrar", si sí, el carrito -->
+      <ion-button *ngIf="!cliente.registrado" routerLink="/registro">
+        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        Entrar
+      </ion-button>
+      <ion-button *ngIf="cliente.registrado" routerLink="/carrito">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        {{ carrito.length }}
+      </ion-button>
+      <!-- Ir al perfil (solo si ya tiene cuenta) -->
+      <ion-button *ngIf="cliente.registrado" routerLink="/perfil">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Saludo: si ya se registró usamos su nombre -->
+  <h2>Hola {{ cliente.nombre || 'invitado' }}, ¿qué se te antoja?</h2>
+
+  <!-- [(ngModel)] conecta lo que escribes con la variable "busqueda" -->
+  <ion-searchbar placeholder="Buscar comida..." [(ngModel)]="busqueda" (ionInput)="reiniciarLimite()" debounce="300"></ion-searchbar>
+
+  <!-- Categorías: al tocar una se pone en el buscador -->
+  <div class="chips">
+    <button (click)="buscarCategoria('')">Todo</button>
+    <button (click)="buscarCategoria('Hamburguesas')">🍔 Hamburguesas</button>
+    <button (click)="buscarCategoria('Tacos')">🌮 Tacos</button>
+    <button (click)="buscarCategoria('Pizzas')">🍕 Pizza</button>
+    <button (click)="buscarCategoria('Antojitos')">🌭 Antojitos</button>
+    <button (click)="buscarCategoria('Pollo')">🍗 Pollo</button>
+    <button (click)="buscarCategoria('Sushi')">🍣 Sushi</button>
+    <button (click)="buscarCategoria('Complementos')">🍟 Complementos</button>
+    <button (click)="buscarCategoria('Bebidas')">🥤 Bebidas</button>
+  </div>
+
+  <!-- *ngFor repite el ion-item por cada comida visible -->
+  <ion-list>
+    <ion-item *ngFor="let item of visibles">
+      <!-- Foto según la categoría de la comida -->
+      <ion-thumbnail slot="start">
+        <img [src]="imagenes[item.categoria]" [alt]="item.nombre" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.nombre }}</h2>
+        <p>{{ item.descripcion }}</p>
+        <ion-note color="success">${{ item.precio }}</ion-note>
+      </ion-label>
+      <!-- Botón verde redondo con "+" -->
+      <ion-button class="agregar" slot="end" shape="round" color="success" (click)="agregar(item)">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Invitación para vendedores (como "Vende en DiDi") -->
+  <!-- Sin cuenta va a registro; con cuenta va al perfil para activar "vender" -->
+  <div class="vender" [routerLink]="cliente.registrado ? '/perfil' : '/registro'">
+    <ion-icon name="storefront-outline"></ion-icon>
+    <strong>¿Tienes un negocio?</strong>
+    <p>Vende con Sazón al toque →</p>
+  </div>
+
+  <!-- Si la búsqueda no encuentra nada -->
+  <p class="vacio" *ngIf="filteredItems.length === 0">No encontramos "{{ busqueda }}"</p>
+
+  <!-- Solo aparece si quedan comidas por mostrar -->
+  <ion-button *ngIf="filteredItems.length > limite" expand="block" fill="clear" color="success" (click)="verMas()">
+    Ver más ({{ filteredItems.length - limite }} restantes)
+  </ion-button>
+</ion-content>
+
+<!-- Barra de abajo para ir a pagar (solo si hay algo en el carrito) -->
+<ion-footer *ngIf="carrito.length > 0">
+  <ion-toolbar>
+    <ion-button expand="block" color="dark" routerLink="/carrito">
+      <ion-icon slot="start" name="cart-outline"></ion-icon>
+      Ver carrito ({{ carrito.length }}) · ${{ total() }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
