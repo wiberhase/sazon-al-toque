@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,7 +10,7 @@ import {
 import { addIcons } from 'ionicons';
 import { cartOutline, personCircleOutline, storefrontOutline, add } from 'ionicons/icons';
 // Datos: lista de comidas, carrito y cliente (compartidos)
-import { COMIDAS, CARRITO, USUARIO, Comida } from '../../data/comidas';
+import { COMIDAS, cargarComidas, CARRITO, USUARIO, Comida } from '../../data/comidas';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,22 @@ import { COMIDAS, CARRITO, USUARIO, Comida } from '../../data/comidas';
     IonSearchbar, IonList, IonItem, IonLabel, IonNote, IonFooter, IonThumbnail, IonIcon,
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  private cd = inject(ChangeDetectorRef); // para refrescar la pantalla
+  cargando: boolean = true; // true mientras llegan las comidas
+  error: boolean = false; // true si la API no respondió
+
+  // Al abrir la página pedimos las comidas a la API
+  async ngOnInit() {
+    try {
+      await cargarComidas();
+    } catch {
+      this.error = true;
+    }
+    this.cargando = false;
+    this.cd.markForCheck(); // avisamos a Angular que hay datos nuevos
+  }
+
   private router = inject(Router); // para cambiar de página desde el código
 
   constructor() {

@@ -40,6 +40,9 @@
     <button (click)="buscarCategoria('Bebidas')">🥤 Bebidas</button>
   </div>
 
+  <p class="vacio" *ngIf="cargando">Cargando menú...</p>
+  <p class="vacio" *ngIf="error">No se pudo cargar el menú. Revisa tu conexión.</p>
+
   <!-- *ngFor repite el ion-item por cada comida visible -->
   <ion-list>
     <ion-item *ngFor="let item of visibles">
@@ -68,7 +71,7 @@
   </div>
 
   <!-- Si la búsqueda no encuentra nada -->
-  <p class="vacio" *ngIf="filteredItems.length === 0">No encontramos "{{ busqueda }}"</p>
+  <p class="vacio" *ngIf="!cargando && !error && filteredItems.length === 0">No encontramos "{{ busqueda }}"</p>
 
   <!-- Solo aparece si quedan comidas por mostrar -->
   <ion-button *ngIf="filteredItems.length > limite" expand="block" fill="clear" color="success" (click)="verMas()">
