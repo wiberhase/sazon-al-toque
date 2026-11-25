@@ -30,6 +30,18 @@
     Continuar con Google
   </ion-button>
 
+  <!-- Lista de cuentas (como el selector de Google) -->
+  <ion-list class="cuentas" *ngIf="mostrarCuentas">
+    <p>Elige una cuenta</p>
+    <ion-item button *ngFor="let c of cuentas" (click)="elegirCuenta(c)">
+      <ion-avatar slot="start" class="letra">{{ c.nombre.charAt(0) }}</ion-avatar>
+      <ion-label>
+        <h3>{{ c.nombre }}</h3>
+        <p>{{ c.correo }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
   <p class="separador">o llena tus datos</p>
 
   <!-- Cada input se conecta a una variable con [(ngModel)] -->
@@ -43,6 +55,12 @@
     fill="outline"
     [(ngModel)]="direccion"
   ></ion-input>
+
+  <!-- Botón que usa el GPS del celular -->
+  <ion-button expand="block" fill="clear" color="success" (click)="usarUbicacion()">
+    <ion-icon slot="start" name="location-outline"></ion-icon>
+    Usar mi ubicación
+  </ion-button>
 
   <ion-button class="boton" expand="block" (click)="registrar()">Registrarme</ion-button>
 </ion-content>

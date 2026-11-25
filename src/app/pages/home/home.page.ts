@@ -10,7 +10,7 @@ import {
 import { addIcons } from 'ionicons';
 import { cartOutline, personCircleOutline, storefrontOutline, add } from 'ionicons/icons';
 // Datos: lista de comidas, carrito y cliente (compartidos)
-import { COMIDAS, cargarComidas, CARRITO, USUARIO, Comida } from '../../data/comidas';
+import { COMIDAS, cargarComidas, CARRITO, USUARIO, Comida, guardar } from '../../data/comidas';
 
 @Component({
   selector: 'app-home',
@@ -100,6 +100,7 @@ export class HomePage implements OnInit {
       return;
     }
     this.carrito.push(item);
+    guardar();
   }
 
   // Suma de precios del carrito

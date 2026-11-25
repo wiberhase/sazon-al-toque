@@ -7,7 +7,7 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { bicycleOutline, checkmarkDoneOutline, restaurantOutline } from 'ionicons/icons';
-import { PEDIDOS, Pedido } from '../../../data/comidas';
+import { PEDIDOS, Pedido, guardar } from '../../../data/comidas';
 
 @Component({
   selector: 'app-pedidos-vendedor',
@@ -30,5 +30,6 @@ export class PedidosVendedorPage {
   // Cambia el estado; el cliente lo ve en su página "pedido"
   cambiarEstado(pedido: Pedido, estado: string) {
     pedido.estado = estado;
+    guardar();
   }
 }

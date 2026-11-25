@@ -12,13 +12,14 @@
   <!-- Foto de perfil con la inicial del nombre -->
   <div class="avatar">{{ usuario.nombre.charAt(0) }}</div>
   <h2 class="ion-text-center">{{ usuario.nombre }}</h2>
+  <p class="ion-text-center" *ngIf="usuario.correo">{{ usuario.correo }}</p>
 
   <!-- Al escribir se cambian directo los datos de USUARIO -->
   <ion-input class="campo" label="Nombre" labelPlacement="floating" fill="outline" [(ngModel)]="usuario.nombre"></ion-input>
   <ion-input class="campo" label="Teléfono" labelPlacement="floating" fill="outline" type="tel" [(ngModel)]="usuario.telefono"></ion-input>
   <ion-input class="campo" label="Dirección" labelPlacement="floating" fill="outline" [(ngModel)]="usuario.direccion"></ion-input>
 
-  <ion-button class="boton" expand="block" routerLink="/home">
+  <ion-button class="boton" expand="block" (click)="guardar()">
     <ion-icon slot="start" name="save-outline"></ion-icon>
     Guardar
   </ion-button>

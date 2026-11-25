@@ -1,11 +1,12 @@
 import type { Routes } from '@angular/router';
+import { USUARIO } from './data/comidas';
 
 // Aquí se registran las páginas. El comando "npx ionic g page ..." agrega cada una solo.
 export const routes: Routes = [
-  // Al abrir la app se va a bienvenida
+  // Al abrir la app: si ya tiene cuenta va directo al menú, si no a bienvenida
   {
     path: '',
-    redirectTo: 'bienvenida',
+    redirectTo: () => (USUARIO.registrado ? (USUARIO.vendedor ? 'pedidos-vendedor' : 'home') : 'bienvenida'),
     pathMatch: 'full',
   },
 

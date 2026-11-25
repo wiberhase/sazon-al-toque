@@ -7,7 +7,9 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { trashOutline, personOutline, locationOutline, bicycleOutline } from 'ionicons/icons';
-import { CARRITO, USUARIO, PEDIDOS } from '../../../data/comidas';
+import { CARRITO, USUARIO, PEDIDOS, guardar } from '../../../data/comidas';
+// Plugin de Capacitor para mandar notificaciones en el celular
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-carrito',
@@ -34,6 +36,7 @@ export class CarritoPage {
   // Quita el producto que está en la posición "i"
   quitar(i: number) {
     this.carrito.splice(i, 1);
+    guardar();
   }
 
   // Suma de productos + envío
@@ -57,7 +60,27 @@ export class CarritoPage {
       estado: 'Preparando',
     });
 
+    this.avisar(PEDIDOS.length, this.total());
     this.carrito.length = 0; // vaciar el carrito
+    guardar();
     this.router.navigate(['/pedido']);
+  }
+
+  // Manda una notificación al celular: "¡Pedido recibido!"
+  async avisar(numero: number, total: number) {
+    try {
+      await LocalNotifications.requestPermissions(); // pide permiso la primera vez
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: numero,
+            title: '¡Pedido recibido! 🍔',
+            body: 'Tu pedido #' + numero + ' por $' + total + ' ya se está preparando.',
+          },
+        ],
+      });
+    } catch {
+      // En el navegador puede fallar; no pasa nada
+    }
   }
 }

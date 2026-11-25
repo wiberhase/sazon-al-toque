@@ -32,3 +32,24 @@ ion-segment {
   height: 50px;
   margin-top: 16px;
 }
+
+// Selector de cuentas de Google
+.cuentas {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 10px;
+  p {
+    padding: 0 16px;
+    font-weight: bold;
+  }
+}
+
+// Círculo con la inicial
+.letra {
+  background: #34a853;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}

@@ -7,7 +7,7 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { saveOutline, storefrontOutline, logOutOutline, receiptOutline } from 'ionicons/icons';
-import { USUARIO } from '../../../data/comidas';
+import { USUARIO, guardar } from '../../../data/comidas';
 
 @Component({
   selector: 'app-perfil',
@@ -31,7 +31,14 @@ export class PerfilPage {
   // El cliente ahora también es vendedor y va a su negocio
   hacermeVendedor() {
     this.usuario.vendedor = true;
+    guardar();
     this.router.navigate(['/pedidos-vendedor']);
+  }
+
+  // Guarda los cambios del perfil y regresa al menú
+  guardar() {
+    guardar();
+    this.router.navigate(['/home']);
   }
 
   // Borra los datos y regresa a la bienvenida
@@ -41,6 +48,8 @@ export class PerfilPage {
     this.usuario.nombre = '';
     this.usuario.telefono = '';
     this.usuario.direccion = '';
+    this.usuario.correo = '';
+    guardar();
     this.router.navigate(['/bienvenida']);
   }
 }

@@ -35,6 +35,7 @@ export const USUARIO = {
   registrado: false,
   vendedor: false,
   nombre: '',
+  correo: '',
   telefono: '',
   direccion: '',
 };
@@ -52,3 +53,21 @@ export interface Pedido {
 
 // Todos los pedidos hechos (el vendedor los ve aquí)
 export const PEDIDOS: Pedido[] = [];
+
+
+// ================================================================
+// Guardar en el teléfono (localStorage) para que no se pierda
+// al cerrar la app o apagar el celular.
+// ================================================================
+
+// Guarda la cuenta, el carrito y los pedidos
+export function guardar() {
+  localStorage.setItem('usuario', JSON.stringify(USUARIO));
+  localStorage.setItem('carrito', JSON.stringify(CARRITO));
+  localStorage.setItem('pedidos', JSON.stringify(PEDIDOS));
+}
+
+// Al abrir la app recuperamos lo que estaba guardado
+Object.assign(USUARIO, JSON.parse(localStorage.getItem('usuario') || '{}'));
+CARRITO.push(...JSON.parse(localStorage.getItem('carrito') || '[]'));
+PEDIDOS.push(...JSON.parse(localStorage.getItem('pedidos') || '[]'));
