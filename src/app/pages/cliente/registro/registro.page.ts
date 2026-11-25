@@ -11,6 +11,8 @@ import { fastFoodOutline, storefrontOutline, logoGoogle, locationOutline } from 
 import { USUARIO, guardar } from '../../../data/comidas';
 // Plugin de Capacitor para usar el GPS del celular
 import { Geolocation } from '@capacitor/geolocation';
+// Plugin para saber cuándo regresa el internet
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-registro',
@@ -67,11 +69,37 @@ export class RegistroPage {
   async usarUbicacion() {
     try {
       const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 15000 });
-      this.direccion = 'Ubicación: ' + pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5);
+      const lat = pos.coords.latitude.toFixed(5);
+      const lon = pos.coords.longitude.toFixed(5);
+      this.direccion = 'Ubicación: ' + lat + ', ' + lon; // primero las coordenadas
+      this.cd.markForCheck();
+      this.ponerNombre(lat, lon); // luego intentamos cambiarlas por el nombre
     } catch {
       this.direccion = 'No se pudo obtener la ubicación';
+      this.cd.markForCheck(); // mostramos el resultado en pantalla
     }
-    this.cd.markForCheck(); // mostramos el resultado en pantalla
+  }
+
+  // Cambia las coordenadas por el nombre de la calle (OpenStreetMap).
+  // Si no hay internet, lo vuelve a intentar cuando regrese la conexión.
+  async ponerNombre(lat: string, lon: string) {
+    try {
+      const url = 'https://nominatim.openstreetmap.org/reverse?format=json&accept-language=es&lat=' + lat + '&lon=' + lon;
+      const datos = await (await fetch(url)).json();
+      // Solo la cambiamos si el usuario no escribió otra dirección mientras tanto
+      if (datos.display_name && this.direccion.startsWith('Ubicación:')) {
+        this.direccion = datos.display_name;
+        this.cd.markForCheck();
+      }
+    } catch {
+      // Sin internet: cuando regrese la conexión lo intentamos otra vez
+      const escucha = await Network.addListener('networkStatusChange', (estado) => {
+        if (estado.connected) {
+          escucha.remove(); // dejamos de escuchar
+          this.ponerNombre(lat, lon);
+        }
+      });
+    }
   }
 
   // Simulación de Google: muestra la lista de cuentas
